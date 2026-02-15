@@ -1783,46 +1783,51 @@ html {
         position: relative;
         width: 100%;
         overflow: hidden;
+        min-height: 180px;
     }
 
     .contact-info {
-        display: flex !important;
-        flex-direction: row !important;
-        gap: 0 !important;
-        overflow: visible !important;
-        padding-bottom: 0 !important;
-        grid-template-columns: none !important;
-        transition: transform 0.5s ease;
+        display: block !important;
+        position: relative;
+        width: 100%;
+        min-height: 150px;
     }
 
     .info-card {
         flex: 0 0 100% !important;
         width: 100% !important;
         min-width: 100% !important;
-        padding: 1.5rem !important;
+        padding: 1rem !important;
         text-align: center;
         opacity: 0;
-        transition: opacity 0.5s ease;
+        visibility: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
     }
 
     .info-card.active {
         opacity: 1;
+        visibility: visible;
+        position: relative;
     }
 
     .info-icon {
         font-size: 2rem !important;
-        margin-bottom: 0.8rem;
+        margin-bottom: 0.5rem;
     }
 
     .info-card h3 {
         font-size: 1rem !important;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.3rem;
     }
 
     .info-card p {
         font-size: 0.9rem !important;
         line-height: 1.4;
         word-break: break-word;
+        margin-bottom: 0;
     }
 
     /* Dots Navigation */
@@ -1830,7 +1835,8 @@ html {
         display: flex;
         justify-content: center;
         gap: 0.8rem;
-        margin-top: 1rem;
+        margin-top: 0;
+        padding-top: 0;
     }
 
     .dot {
