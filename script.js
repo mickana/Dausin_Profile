@@ -1057,6 +1057,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Contact Info Carousel for Mobile
 let currentInfoCard = 0;
 let infoCarouselInterval;
+let isTransitioningCard = false;
 
 function showInfoCard(index) {
     const cards = document.querySelectorAll('.contact-info .info-card');
@@ -1064,24 +1065,39 @@ function showInfoCard(index) {
     
     console.log('showInfoCard called with index:', index);
     console.log('Found cards:', cards.length);
-    console.log('Found dots:', dots.length);
     
-    if (!cards.length) return;
+    if (!cards.length || isTransitioningCard) return;
     
-    // Remove active class from all
-    cards.forEach(card => card.classList.remove('active'));
+    isTransitioningCard = true;
+    const previousIndex = currentInfoCard;
+    
+    // Add fade-out animation to current card
+    if (cards[previousIndex] && previousIndex !== index) {
+        cards[previousIndex].classList.add('fade-out');
+    }
+    
+    // Remove active from all dots
     dots.forEach(dot => dot.classList.remove('active'));
     
-    // Add active class to current
-    if (cards[index]) {
-        cards[index].classList.add('active');
-        console.log('Activated card:', index);
-    }
-    if (dots[index]) {
-        dots[index].classList.add('active');
-    }
-    
-    currentInfoCard = index;
+    // Wait for fade-out animation
+    setTimeout(() => {
+        // Remove all active and fade-out classes
+        cards.forEach(card => {
+            card.classList.remove('active', 'fade-out');
+        });
+        
+        // Activate new card
+        if (cards[index]) {
+            cards[index].classList.add('active');
+            console.log('Activated card:', index);
+        }
+        if (dots[index]) {
+            dots[index].classList.add('active');
+        }
+        
+        currentInfoCard = index;
+        isTransitioningCard = false;
+    }, 300);
 }
 
 function nextInfoCard() {
@@ -1132,5 +1148,345 @@ window.addEventListener('resize', function() {
     if (window.innerWidth <= 480) {
         showInfoCard(0);
         startInfoCarousel();
+    }
+});
+
+
+// Skills Carousel for Mobile
+let currentSkillCategory = 0;
+let skillsCarouselInterval;
+let isTransitioningSkill = false;
+
+function showSkillCategory(index) {
+    const categories = document.querySelectorAll('.skill-category');
+    const dots = document.querySelectorAll('.skills-dots .dot');
+    
+    console.log('showSkillCategory called with index:', index);
+    console.log('Found categories:', categories.length);
+    
+    if (!categories.length || isTransitioningSkill) return;
+    
+    isTransitioningSkill = true;
+    const previousIndex = currentSkillCategory;
+    
+    // Add fade-out animation to current category
+    if (categories[previousIndex] && previousIndex !== index) {
+        categories[previousIndex].classList.add('fade-out');
+    }
+    
+    // Remove active from all dots
+    dots.forEach(dot => dot.classList.remove('active'));
+    
+    // Wait for fade-out animation
+    setTimeout(() => {
+        // Remove all active and fade-out classes
+        categories.forEach(cat => {
+            cat.classList.remove('active', 'fade-out');
+        });
+        
+        // Activate new category
+        if (categories[index]) {
+            categories[index].classList.add('active');
+            console.log('Activated category:', index);
+        }
+        if (dots[index]) {
+            dots[index].classList.add('active');
+        }
+        
+        currentSkillCategory = index;
+        isTransitioningSkill = false;
+    }, 300);
+}
+
+function nextSkillCategory() {
+    const categories = document.querySelectorAll('.skill-category');
+    currentSkillCategory = (currentSkillCategory + 1) % categories.length;
+    console.log('Next category:', currentSkillCategory);
+    showSkillCategory(currentSkillCategory);
+}
+
+// Auto-slide every 4 seconds on mobile
+function startSkillsCarousel() {
+    console.log('Starting skills carousel, window width:', window.innerWidth);
+    if (window.innerWidth <= 768) {
+        skillsCarouselInterval = setInterval(nextSkillCategory, 4000);
+        console.log('Skills carousel started');
+    }
+}
+
+function stopSkillsCarousel() {
+    if (skillsCarouselInterval) {
+        clearInterval(skillsCarouselInterval);
+        console.log('Skills carousel stopped');
+    }
+}
+
+// Initialize skills carousel on page load
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing skills carousel');
+    if (window.innerWidth <= 768) {
+        showSkillCategory(0);
+        startSkillsCarousel();
+    }
+    
+    // Attach dot click handlers
+    document.querySelectorAll('.skills-dots .dot').forEach((dot, index) => {
+        dot.addEventListener('click', function() {
+            console.log('Skills dot clicked:', index);
+            stopSkillsCarousel();
+            showSkillCategory(index);
+            setTimeout(startSkillsCarousel, 5000);
+        });
+    });
+});
+
+// Restart skills carousel on window resize
+window.addEventListener('resize', function() {
+    stopSkillsCarousel();
+    if (window.innerWidth <= 768) {
+        showSkillCategory(0);
+        startSkillsCarousel();
+    }
+});
+
+
+// Projects Carousel for Mobile
+let currentProjectCard = 0;
+let projectsCarouselInterval;
+let isTransitioningProject = false;
+
+function showProjectCard(index) {
+    const cards = document.querySelectorAll('.project-card');
+    const dots = document.querySelectorAll('.projects-dots .dot');
+    
+    console.log('showProjectCard called with index:', index);
+    
+    if (!cards.length || isTransitioningProject) return;
+    
+    isTransitioningProject = true;
+    const previousIndex = currentProjectCard;
+    
+    // Add fade-out to current card
+    if (cards[previousIndex] && previousIndex !== index) {
+        cards[previousIndex].classList.add('fade-out');
+    }
+    
+    // Update dots immediately
+    dots.forEach(dot => dot.classList.remove('active'));
+    if (dots[index]) {
+        dots[index].classList.add('active');
+    }
+    
+    // Wait for fade-out animation
+    setTimeout(() => {
+        // Remove all active and fade-out classes
+        cards.forEach(card => {
+            card.classList.remove('active', 'fade-out');
+        });
+        
+        // Activate new card
+        if (cards[index]) {
+            cards[index].classList.add('active');
+            console.log('Activated project card:', index);
+        }
+        
+        currentProjectCard = index;
+        isTransitioningProject = false;
+    }, 300);
+}
+
+function nextProjectCard() {
+    const cards = document.querySelectorAll('.project-card');
+    currentProjectCard = (currentProjectCard + 1) % cards.length;
+    showProjectCard(currentProjectCard);
+}
+
+function startProjectsCarousel() {
+    if (window.innerWidth <= 768) {
+        projectsCarouselInterval = setInterval(nextProjectCard, 5000);
+    }
+}
+
+function stopProjectsCarousel() {
+    if (projectsCarouselInterval) {
+        clearInterval(projectsCarouselInterval);
+    }
+}
+
+// Education Carousel for Mobile
+let currentEducationCard = 0;
+let educationCarouselInterval;
+let isTransitioningEducation = false;
+
+function showEducationCard(index) {
+    const cards = document.querySelectorAll('.education-card');
+    const dots = document.querySelectorAll('.education-dots .dot');
+    
+    console.log('showEducationCard called with index:', index);
+    
+    if (!cards.length || isTransitioningEducation) return;
+    
+    isTransitioningEducation = true;
+    const previousIndex = currentEducationCard;
+    
+    if (cards[previousIndex] && previousIndex !== index) {
+        cards[previousIndex].classList.add('fade-out');
+    }
+    
+    dots.forEach(dot => dot.classList.remove('active'));
+    
+    setTimeout(() => {
+        cards.forEach(card => {
+            card.classList.remove('active', 'fade-out');
+        });
+        
+        if (cards[index]) {
+            cards[index].classList.add('active');
+            console.log('Activated education card:', index);
+        }
+        if (dots[index]) {
+            dots[index].classList.add('active');
+        }
+        
+        currentEducationCard = index;
+        isTransitioningEducation = false;
+    }, 300);
+}
+
+function nextEducationCard() {
+    const cards = document.querySelectorAll('.education-card');
+    currentEducationCard = (currentEducationCard + 1) % cards.length;
+    showEducationCard(currentEducationCard);
+}
+
+function startEducationCarousel() {
+    if (window.innerWidth <= 768) {
+        educationCarouselInterval = setInterval(nextEducationCard, 5000);
+    }
+}
+
+function stopEducationCarousel() {
+    if (educationCarouselInterval) {
+        clearInterval(educationCarouselInterval);
+    }
+}
+
+// Certifications Carousel for Mobile
+let currentCertCard = 0;
+let certCarouselInterval;
+let isTransitioningCert = false;
+
+function showCertCard(index) {
+    const cards = document.querySelectorAll('.cert-card');
+    const dots = document.querySelectorAll('.cert-dots .dot');
+    
+    console.log('showCertCard called with index:', index);
+    
+    if (!cards.length || isTransitioningCert) return;
+    
+    isTransitioningCert = true;
+    const previousIndex = currentCertCard;
+    
+    if (cards[previousIndex] && previousIndex !== index) {
+        cards[previousIndex].classList.add('fade-out');
+    }
+    
+    dots.forEach(dot => dot.classList.remove('active'));
+    
+    setTimeout(() => {
+        cards.forEach(card => {
+            card.classList.remove('active', 'fade-out');
+        });
+        
+        if (cards[index]) {
+            cards[index].classList.add('active');
+            console.log('Activated cert card:', index);
+        }
+        if (dots[index]) {
+            dots[index].classList.add('active');
+        }
+        
+        currentCertCard = index;
+        isTransitioningCert = false;
+    }, 300);
+}
+
+function nextCertCard() {
+    const cards = document.querySelectorAll('.cert-card');
+    currentCertCard = (currentCertCard + 1) % cards.length;
+    showCertCard(currentCertCard);
+}
+
+function startCertCarousel() {
+    if (window.innerWidth <= 768) {
+        certCarouselInterval = setInterval(nextCertCard, 4000);
+    }
+}
+
+function stopCertCarousel() {
+    if (certCarouselInterval) {
+        clearInterval(certCarouselInterval);
+    }
+}
+
+// Initialize all carousels on page load
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.innerWidth <= 768) {
+        // Projects
+        showProjectCard(0);
+        startProjectsCarousel();
+        
+        // Education
+        showEducationCard(0);
+        startEducationCarousel();
+        
+        // Certifications
+        showCertCard(0);
+        startCertCarousel();
+    }
+    
+    // Attach dot click handlers for projects
+    document.querySelectorAll('.projects-dots .dot').forEach((dot, index) => {
+        dot.addEventListener('click', function() {
+            stopProjectsCarousel();
+            showProjectCard(index);
+            setTimeout(startProjectsCarousel, 5000);
+        });
+    });
+    
+    // Attach dot click handlers for education
+    document.querySelectorAll('.education-dots .dot').forEach((dot, index) => {
+        dot.addEventListener('click', function() {
+            stopEducationCarousel();
+            showEducationCard(index);
+            setTimeout(startEducationCarousel, 5000);
+        });
+    });
+    
+    // Attach dot click handlers for certifications
+    document.querySelectorAll('.cert-dots .dot').forEach((dot, index) => {
+        dot.addEventListener('click', function() {
+            stopCertCarousel();
+            showCertCard(index);
+            setTimeout(startCertCarousel, 5000);
+        });
+    });
+});
+
+// Restart all carousels on window resize
+window.addEventListener('resize', function() {
+    stopProjectsCarousel();
+    stopEducationCarousel();
+    stopCertCarousel();
+    
+    if (window.innerWidth <= 768) {
+        showProjectCard(0);
+        startProjectsCarousel();
+        
+        showEducationCard(0);
+        startEducationCarousel();
+        
+        showCertCard(0);
+        startCertCarousel();
     }
 });
