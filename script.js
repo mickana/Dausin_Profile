@@ -1052,3 +1052,73 @@ document.addEventListener('DOMContentLoaded', () => {
         counterObserver.observe(statsSection);
     }
 });
+
+
+// Contact Info Carousel for Mobile
+let currentInfoCard = 0;
+let infoCarouselInterval;
+
+function showInfoCard(index) {
+    const cards = document.querySelectorAll('.contact-info .info-card');
+    const dots = document.querySelectorAll('.info-dots .dot');
+    
+    if (!cards.length) return;
+    
+    // Remove active class from all
+    cards.forEach(card => card.classList.remove('active'));
+    dots.forEach(dot => dot.classList.remove('active'));
+    
+    // Add active class to current
+    cards[index].classList.add('active');
+    dots[index].classList.add('active');
+    
+    // Update transform
+    const contactInfo = document.querySelector('.contact-info');
+    contactInfo.style.transform = `translateX(-${index * 100}%)`;
+    
+    currentInfoCard = index;
+}
+
+function nextInfoCard() {
+    const cards = document.querySelectorAll('.contact-info .info-card');
+    currentInfoCard = (currentInfoCard + 1) % cards.length;
+    showInfoCard(currentInfoCard);
+}
+
+// Auto-slide every 3 seconds on mobile
+function startInfoCarousel() {
+    if (window.innerWidth <= 480) {
+        infoCarouselInterval = setInterval(nextInfoCard, 3000);
+    }
+}
+
+function stopInfoCarousel() {
+    if (infoCarouselInterval) {
+        clearInterval(infoCarouselInterval);
+    }
+}
+
+// Initialize carousel on page load
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.innerWidth <= 480) {
+        showInfoCard(0);
+        startInfoCarousel();
+    }
+});
+
+// Restart carousel on window resize
+window.addEventListener('resize', function() {
+    stopInfoCarousel();
+    if (window.innerWidth <= 480) {
+        showInfoCard(0);
+        startInfoCarousel();
+    }
+});
+
+// Pause carousel when user clicks a dot
+document.querySelectorAll('.info-dots .dot').forEach(dot => {
+    dot.addEventListener('click', function() {
+        stopInfoCarousel();
+        setTimeout(startInfoCarousel, 5000); // Resume after 5 seconds
+    });
+});
