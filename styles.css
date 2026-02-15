@@ -1782,8 +1782,7 @@ html {
     .contact-info-wrapper {
         position: relative;
         width: 100%;
-        overflow: hidden;
-        min-height: 180px;
+        overflow: visible;
     }
 
     .contact-info {
@@ -1805,12 +1804,14 @@ html {
         top: 0;
         left: 0;
         transition: opacity 0.5s ease, visibility 0.5s ease;
+        pointer-events: none;
     }
 
     .info-card.active {
         opacity: 1;
         visibility: visible;
         position: relative;
+        pointer-events: auto;
     }
 
     .info-icon {
