@@ -307,7 +307,7 @@
         </div>
         <div class="education-timeline">
             <!-- Current Education -->
-            <div class="education-card" data-year="2021">
+            <div class="education-card active" data-year="2021">
                 <div class="timeline-dot"></div>
                 <div class="card-inner">
                     <div class="education-header">
@@ -458,6 +458,11 @@
                 </div>
             </div>
         </div>
+        <div class="education-dots">
+            <span class="dot active" onclick="showEducationCard(0)"></span>
+            <span class="dot" onclick="showEducationCard(1)"></span>
+            <span class="dot" onclick="showEducationCard(2)"></span>
+        </div>
     </section>
     
     <div class="section-divider"></div>
@@ -468,9 +473,10 @@
             <div class="section-line"></div>
             <p class="section-description">My technical toolkit—languages, frameworks, and tools I use to bring ideas to life.</p>
         </div>
-        <div class="skills-container">
-            <!-- Frontend Development -->
-            <div class="skill-category" data-category="frontend">
+        <div class="skills-wrapper">
+            <div class="skills-container">
+                <!-- Frontend Development -->
+                <div class="skill-category active" data-category="frontend">
                 <div class="category-header">
                     <div class="category-icon">
                         <i class="fas fa-laptop-code"></i>
@@ -706,6 +712,13 @@
                 </div>
             </div>
         </div>
+        <div class="skills-dots">
+            <span class="dot active" onclick="showSkillCategory(0)"></span>
+            <span class="dot" onclick="showSkillCategory(1)"></span>
+            <span class="dot" onclick="showSkillCategory(2)"></span>
+            <span class="dot" onclick="showSkillCategory(3)"></span>
+        </div>
+    </div>
     </section>
     
     <div class="section-divider"></div>
@@ -717,7 +730,7 @@
             <p class="section-description">Selected work that shows how I apply development, design, and problem-solving—from web apps to mobile and full-stack projects.</p>
         </div>
         <div class="projects-container">
-            <div class="project-card interactive">
+            <div class="project-card interactive active">
                 <div class="project-image">
                     <img src="img/storytimeKingdom.jpg" alt="Storytime Kingdom">
                 </div>
@@ -886,6 +899,15 @@
                 </div>
             </div>
         </div>
+        <div class="projects-dots">
+            <span class="dot active" onclick="showProjectCard(0)"></span>
+            <span class="dot" onclick="showProjectCard(1)"></span>
+            <span class="dot" onclick="showProjectCard(2)"></span>
+            <span class="dot" onclick="showProjectCard(3)"></span>
+            <span class="dot" onclick="showProjectCard(4)"></span>
+            <span class="dot" onclick="showProjectCard(5)"></span>
+            <span class="dot" onclick="showProjectCard(6)"></span>
+        </div>
     </section>
     
     <div class="section-divider"></div>
@@ -898,7 +920,7 @@
             <p class="section-description">Professional certifications and recognitions earned throughout my journey</p>
         </div>
         <div class="certifications-container">
-            <div class="cert-card">
+            <div class="cert-card active">
                 <div class="cert-shine"></div>
                 <div class="cert-image" onclick="openCertModal('cert1')">
                     <img src="img/basics.jpg" alt="Certificate" id="cert1-img">
@@ -968,9 +990,11 @@ through the Cisco Networking Academy program</p>
                 </div>
             </div>
         </div>
+        <div class="cert-dots">
+            <span class="dot active" onclick="showCertCard(0)"></span>
+            <span class="dot" onclick="showCertCard(1)"></span>
+        </div>
     </section>
-    
-    <!-- Certificate Modal -->
     <div id="certModal" class="modal">
         <div class="modal-content">
             <span class="close-button" onclick="closeCertModal()">&times;</span>
