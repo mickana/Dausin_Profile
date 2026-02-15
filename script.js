@@ -1062,6 +1062,10 @@ function showInfoCard(index) {
     const cards = document.querySelectorAll('.contact-info .info-card');
     const dots = document.querySelectorAll('.info-dots .dot');
     
+    console.log('showInfoCard called with index:', index);
+    console.log('Found cards:', cards.length);
+    console.log('Found dots:', dots.length);
+    
     if (!cards.length) return;
     
     // Remove active class from all
@@ -1069,12 +1073,13 @@ function showInfoCard(index) {
     dots.forEach(dot => dot.classList.remove('active'));
     
     // Add active class to current
-    cards[index].classList.add('active');
-    dots[index].classList.add('active');
-    
-    // Update transform
-    const contactInfo = document.querySelector('.contact-info');
-    contactInfo.style.transform = `translateX(-${index * 100}%)`;
+    if (cards[index]) {
+        cards[index].classList.add('active');
+        console.log('Activated card:', index);
+    }
+    if (dots[index]) {
+        dots[index].classList.add('active');
+    }
     
     currentInfoCard = index;
 }
@@ -1082,28 +1087,43 @@ function showInfoCard(index) {
 function nextInfoCard() {
     const cards = document.querySelectorAll('.contact-info .info-card');
     currentInfoCard = (currentInfoCard + 1) % cards.length;
+    console.log('Next card:', currentInfoCard);
     showInfoCard(currentInfoCard);
 }
 
 // Auto-slide every 3 seconds on mobile
 function startInfoCarousel() {
+    console.log('Starting carousel, window width:', window.innerWidth);
     if (window.innerWidth <= 480) {
         infoCarouselInterval = setInterval(nextInfoCard, 3000);
+        console.log('Carousel started');
     }
 }
 
 function stopInfoCarousel() {
     if (infoCarouselInterval) {
         clearInterval(infoCarouselInterval);
+        console.log('Carousel stopped');
     }
 }
 
 // Initialize carousel on page load
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing carousel');
     if (window.innerWidth <= 480) {
         showInfoCard(0);
         startInfoCarousel();
     }
+    
+    // Attach dot click handlers
+    document.querySelectorAll('.info-dots .dot').forEach((dot, index) => {
+        dot.addEventListener('click', function() {
+            console.log('Dot clicked:', index);
+            stopInfoCarousel();
+            showInfoCard(index);
+            setTimeout(startInfoCarousel, 5000);
+        });
+    });
 });
 
 // Restart carousel on window resize
@@ -1113,12 +1133,4 @@ window.addEventListener('resize', function() {
         showInfoCard(0);
         startInfoCarousel();
     }
-});
-
-// Pause carousel when user clicks a dot
-document.querySelectorAll('.info-dots .dot').forEach(dot => {
-    dot.addEventListener('click', function() {
-        stopInfoCarousel();
-        setTimeout(startInfoCarousel, 5000); // Resume after 5 seconds
-    });
 });
