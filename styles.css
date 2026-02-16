@@ -911,19 +911,6 @@ html {
     .project-card {
         padding: 1rem !important;
         margin: 0 !important;
-    }
-
-    .project-content {
-        padding: 0.8rem !important;
-        margin-bottom: 0 !important;
-    }
-    
-    .project-links {
-        margin-bottom: 0 !important;
-    }
-}
-
-    .project-card {
         opacity: 0 !important;
         visibility: hidden !important;
         position: absolute !important;
@@ -936,7 +923,6 @@ html {
         transition: opacity 0.3s ease, visibility 0.3s ease;
         z-index: 1;
         display: none !important;
-        margin: 0 !important;
     }
 
     .project-card.active {
@@ -964,6 +950,19 @@ html {
         100% {
             opacity: 1;
         }
+    }
+
+    .project-content {
+        padding: 0.8rem !important;
+        margin-bottom: 0 !important;
+    }
+    
+    .project-links {
+        margin-bottom: 0 !important;
+    }
+
+    .project-image {
+        margin-bottom: 0.8rem !important;
     }
 
     /* Disable spotlight effect on mobile */
@@ -1003,19 +1002,19 @@ html {
         background: rgba(34, 197, 94, 0.6);
         transform: scale(1.2);
     }
+}
 
-    /* Reduce project card spacing */
+/* Desktop - Show all projects normally */
+@media (min-width: 769px) {
     .project-card {
-        margin-bottom: 0 !important;
-        padding: 1rem !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        position: relative !important;
+        display: block !important;
     }
-
-    .project-content {
-        padding: 1rem !important;
-    }
-
-    .project-image {
-        margin-bottom: 0.8rem !important;
+    
+    .projects-dots {
+        display: none !important;
     }
 }
 
@@ -1924,32 +1923,9 @@ html {
     opacity: 1;
 }
 
-/* Overlay with zoom icon */
+/* Overlay - removed, show image only */
 .cert-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: all 0.4s ease;
-    backdrop-filter: blur(5px);
-}
-
-.cert-overlay i {
-    font-size: 3rem;
-    color: #4ade80;
-    transform: scale(0);
-    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.cert-card:hover .cert-overlay {
-    opacity: 1;
-}
-
-.cert-card:hover .cert-overlay i {
-    transform: scale(1) rotate(360deg);
+    display: none !important;
 }
 
 .cert-image img {
@@ -1959,6 +1935,13 @@ html {
     border-radius: 12px;
     transition: transform 0.5s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 2;
+}
+
+.cert-card:hover .cert-image img {
+    transform: scale(1.05);
+}
     filter: brightness(0.9);
 }
 
