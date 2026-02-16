@@ -78,15 +78,8 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Contact Form Handling
-const contactForm = document.getElementById('contactForm');
-if (contactForm) {
-    contactForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        alert('Thank you for your message! I will get back to you soon.');
-        this.reset();
-    });
-}
+// Contact Form Handling - Now handled by FormSubmit
+// Form will automatically send email to mickadausin2@gmail.com
 
 // Scroll reveal – animations for every content block
 const sr = ScrollReveal({
